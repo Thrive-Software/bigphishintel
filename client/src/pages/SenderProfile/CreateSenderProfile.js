@@ -16,6 +16,8 @@ const CreateSenderProfile = () => {
     const [port, setPort] = useState('');
     const [secure, setSecure] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [fromAddress, setFromAddress] = useState('');
+    const [replyTo, setReplyTo] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,7 +28,9 @@ const CreateSenderProfile = () => {
             password,
             host,
             port: Number(port), // Convert port to a number
-            secure
+            secure,
+            fromAddress,
+            replyTo
         };
 
         // Call the createSenderProfile function from the hook
@@ -164,6 +168,30 @@ const CreateSenderProfile = () => {
                                             </InputAdornment>
                                         ),
                                     }}
+                                />
+                            </Grid>
+
+                            {/* From Address and Reply-To in one row */}
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="From Address (optional)"
+                                    variant="outlined"
+                                    value={fromAddress}
+                                    onChange={(e) => setFromAddress(e.target.value)}
+                                    helperText="Address to appear in the From header. Falls back to the auth email if left blank."
+                                    type="email"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Reply-To (optional)"
+                                    variant="outlined"
+                                    value={replyTo}
+                                    onChange={(e) => setReplyTo(e.target.value)}
+                                    helperText="Address recipients reply to. Leave blank to use the From address."
+                                    type="email"
                                 />
                             </Grid>
 

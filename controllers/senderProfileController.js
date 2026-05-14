@@ -4,7 +4,7 @@ import { verifySMTP } from '../services/smtpService.js';
 // Create a new Sender Profile
 export const createSenderProfile = async (req, res) => {
   try {
-    const { senderName, email, host, port, secure, password } = req.body;
+    const { senderName, email, host, port, secure, password, fromAddress, replyTo } = req.body;
 
     // Verify SMTP details before proceeding
     await verifySMTP({ host, port, secure, email, password });
@@ -17,6 +17,8 @@ export const createSenderProfile = async (req, res) => {
       port,
       secure,
       password, // Store password as plain text for now
+      fromAddress,
+      replyTo,
     });
 
     await senderProfile.save();
@@ -75,11 +77,11 @@ export const getSenderProfileById = async (req, res) => {
 // Update a Sender Profile
 export const updateSenderProfile = async (req, res) => {
   try {
-    const { senderName, email, host, port, secure, password } = req.body;
+    const { senderName, email, host, port, secure, password, fromAddress, replyTo } = req.body;
 
     const senderProfile = await SenderProfile.findByIdAndUpdate(
       req.params.id,
-      { senderName, email, host, port, secure, password },
+      { senderName, email, host, port, secure, password, fromAddress, replyTo },
       { new: true, runValidators: true }
     );
 

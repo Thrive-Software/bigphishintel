@@ -24,6 +24,14 @@ const senderProfileSchema = new Schema({
         type: String,
         trim: true
     },
+    fromAddress: {
+        type: String,
+        trim: true
+    },
+    replyTo: {
+        type: String,
+        trim: true
+    },
     secure: {
         type: Boolean,
         required: true, // true for SSL (port 465), false for TLS or other ports

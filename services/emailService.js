@@ -55,8 +55,15 @@ export const sendMultipleEmails = async (trackingEntry, senderProfile, template,
         // Regular expression to validate email format
         const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-        // Check if senderProfile.email is a valid email; if not, use a default or handle the error
-        const fromAddress = isValidEmail(senderProfile.email) ? senderProfile.email : "no-reply@mail.com";
+        // Prefer the explicit fromAddress; fall back to the auth email; finally a safe default
+        let fromAddress;
+        if (isValidEmail(senderProfile.fromAddress)) {
+            fromAddress = senderProfile.fromAddress;
+        } else if (isValidEmail(senderProfile.email)) {
+            fromAddress = senderProfile.email;
+        } else {
+            fromAddress = "no-reply@mail.com";
+        }
 
         // Email options
         const mailOptions = {
@@ -65,6 +72,10 @@ export const sendMultipleEmails = async (trackingEntry, senderProfile, template,
             subject: template.subject,
             html: emailBody
         };
+
+        if (isValidEmail(senderProfile.replyTo)) {
+            mailOptions.replyTo = senderProfile.replyTo;
+        }
 
         // Send the email
         await transporter.sendMail(mailOptions);
