@@ -18,14 +18,14 @@ export const runCampaignService = async (id, origin) => {
             return;
         }
 
-        const { senderProfile, template, emailConcurrency, timeDelay } = campaign;
+        const { senderProfile, template, emailConcurrency, timeDelay, phishingSite } = campaign;
         const limit = pLimit(emailConcurrency || 1);
         const trackingEntries = await CampaignTracking.find({ campaign: campaignId, status: 'pending' }).populate('contact');
 
         // Wait for all emails to be sent
         await Promise.all(trackingEntries.map(entry =>
             limit(async () => {
-                await sendMultipleEmails(entry, senderProfile, template, timeDelay, origin);
+                await sendMultipleEmails(entry, senderProfile, template, timeDelay, origin, phishingSite);
             })
         ));
 
@@ -50,7 +50,7 @@ export const resendFailedEmailsService = async (id) => {
             return;
         }
 
-        const { senderProfile, template, emailConcurrency, timeDelay } = campaign;
+        const { senderProfile, template, emailConcurrency, timeDelay, phishingSite } = campaign;
         const limit = pLimit(emailConcurrency || 1);
 
         // Find all failed email records
@@ -66,7 +66,7 @@ export const resendFailedEmailsService = async (id) => {
         await Promise.all(failedEntries.map(entry =>
             limit(async () => {
                 try {
-                    await sendMultipleEmails(entry, senderProfile, template, timeDelay || 0);
+                    await sendMultipleEmails(entry, senderProfile, template, timeDelay || 0, undefined, phishingSite);
                 } catch (err) {
                     console.error(`Failed to resend email to ${entry.email}:`, err.message);
                 }

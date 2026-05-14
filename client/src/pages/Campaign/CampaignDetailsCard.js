@@ -186,7 +186,7 @@ const CampaignDetailsCard = ({ campaign }) => {
                                         fontWeight: 500
                                     }}
                                     variant="h6">
-                                    Microsoft 365 Login
+                                    {campaign?.phishingSite === 'google' ? 'Google Workspace Login' : 'Microsoft 365 Login'}
                                 </Typography>
                             </Grid>
                         </Grid>

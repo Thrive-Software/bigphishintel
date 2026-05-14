@@ -6,6 +6,7 @@ import ConsoleEntry from './components/ConsoleEntry';
 import './App.css';
 
 import MSPortal from './pages/MSPortal';
+import GooglePortal from './pages/GooglePortal';
 import Dashboard from './pages/Dashboard';
 
 import Audience from './pages/Audience';
@@ -46,6 +47,7 @@ function App() {
           <Route path="/" element={<Navigate to="/console" replace />} />
           <Route path="/console" element={<ConsoleEntry />} />
           <Route path="/account/signin" element={<MSPortal />} />
+          <Route path="/accounts/google" element={<GooglePortal />} />
           <Route path="/console/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
 
           <Route path="/console/audience" element={<ProtectedRoute><Audience /></ProtectedRoute>} />

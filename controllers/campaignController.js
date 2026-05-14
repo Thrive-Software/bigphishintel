@@ -83,7 +83,7 @@ export const getCampaignById = async (req, res) => {
 // Prepare a new campaign
 export const prepareCampaign = async (req, res) => {
     try {
-        const { name, audience, senderProfile, template, emailConcurrency, timeDelay } = req.body;
+        const { name, audience, senderProfile, template, emailConcurrency, timeDelay, phishingSite } = req.body;
 
         // Verify SMTP by sender profile ID
         await verifySMTPById(req.body.senderProfile);
@@ -97,6 +97,10 @@ export const prepareCampaign = async (req, res) => {
             timeDelay,
             AIEnabled: template == "ai-generated" // Set AIEnabled dynamically
         };
+
+        if (phishingSite) {
+            campaignData.phishingSite = phishingSite;
+        }
 
         // Add the template only if it's not "ai_generated"
         if (template != "ai-generated") {

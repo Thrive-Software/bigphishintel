@@ -12,6 +12,7 @@ const StartCampaign = () => {
     const [selectedAudience, setSelectedAudience] = useState('');
     const [selectedSenderProfile, setSelectedSenderProfile] = useState('');
     const [selectedTemplate, setSelectedTemplate] = useState('');
+    const [phishingSite, setPhishingSite] = useState('microsoft');
     const [emailConcurrency, setEmailConcurrency] = useState('');
     const [timeDelay, setTimeDelay] = useState('');
     const [isPreparing, setIsPreparing] = useState(false);
@@ -34,6 +35,7 @@ const StartCampaign = () => {
             audience: selectedAudience,
             senderProfile: selectedSenderProfile,
             template: selectedTemplate,
+            phishingSite,
             emailConcurrency,
             timeDelay,
         };
@@ -296,6 +298,28 @@ const StartCampaign = () => {
                                                     {template.name}
                                                 </MenuItem>
                                             ))}
+                                        </TextField>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            select
+                                            fullWidth
+                                            label="Phishing Site"
+                                            value={phishingSite}
+                                            onChange={(e) => setPhishingSite(e.target.value)}
+                                            required
+                                            helperText="Choose the login page recipients land on when they click the email link."
+                                            sx={{
+                                                '& .MuiInputLabel-root': {
+                                                    '& .MuiInputLabel-asterisk': {
+                                                        color: 'error.main',
+                                                    },
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="microsoft">Microsoft 365 Login</MenuItem>
+                                            <MenuItem value="google">Google Workspace Login</MenuItem>
                                         </TextField>
                                     </Grid>
 

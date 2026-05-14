@@ -33,7 +33,7 @@ const campaignSchema = new Schema({
     },
     phishingSite: {
         type: String,
-        enum: ['microsoft'],
+        enum: ['microsoft', 'google'],
         default: 'microsoft'
     },
     AIEnabled: {

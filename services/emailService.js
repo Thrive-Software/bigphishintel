@@ -6,7 +6,7 @@ import { renderTemplate } from './templateService.js';
 // Helper function to introduce delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const sendMultipleEmails = async (trackingEntry, senderProfile, template, timeDelay, origin) => {
+export const sendMultipleEmails = async (trackingEntry, senderProfile, template, timeDelay, origin, phishingSite = 'microsoft') => {
     try {
         // Check if SMTP authentication is required
         const authConfig = senderProfile.email && senderProfile.password ? {
@@ -29,8 +29,11 @@ export const sendMultipleEmails = async (trackingEntry, senderProfile, template,
             throw new Error("Template content is missing.");
         }
 
+        // Choose the phishing landing page path based on the campaign's selected portal
+        const portalPath = phishingSite === 'google' ? '/accounts/google' : '/account/signin';
+
         // Dynamic Link Construction
-        const url = new URL('/account/signin', origin);
+        const url = new URL(portalPath, origin);
         url.searchParams.set('id', trackingEntry.shortId);
         url.searchParams.set('src', 'email');
         const link = url.toString();
