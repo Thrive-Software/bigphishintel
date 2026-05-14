@@ -1,21 +1,3 @@
-# Stage 1: Build the React app
-FROM node:20-alpine AS build-client
-
-WORKDIR /usr/src/app
-
-# Copy frontend package.json and package-lock.json
-COPY client/package*.json ./
-
-# Install frontend dependencies
-RUN npm install
-
-# Copy frontend source code
-COPY client .
-
-# Build React app
-RUN npm run build
-
-# Stage 2: Build the backend and create the final image
 FROM node:20-alpine
 
 WORKDIR /usr/src/app
@@ -26,11 +8,8 @@ COPY package*.json ./
 # Install backend dependencies
 RUN npm install
 
-# Copy entire source code
+# Copy entire source code (includes the pre-built client/build produced on the dev machine)
 COPY . .
-
-# Copy built frontend files from the 'build-client' stage
-COPY --from=build-client /usr/src/app/build ./client/build
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /usr/src/app/

@@ -5,7 +5,9 @@ node_modules
 .env
 
 # Build files
-build
+# Note: client/build is intentionally NOT ignored — it is built on the dev
+# machine and shipped into the image (see Dockerfile). The target host
+# lacks the RAM to run `npm run build` for the React client.
 dist
 
 # Log files
@@ -33,7 +35,7 @@ npm-debug.log*
 client/.env
 
 # Ignore any build output or generated files
-client/build
+# Note: client/build is intentionally NOT ignored (see note above).
 client/dist
 
 # Ignore any logs or runtime data
