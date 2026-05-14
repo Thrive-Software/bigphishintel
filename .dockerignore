@@ -5,6 +5,10 @@ node_modules
 .env
 
 # Build files
+# The image consumes a pre-built tarball (client/build.tar.gz) rather than
+# building the React client inside the container; the target host lacks the
+# RAM. The raw client/build/ tree on the dev machine is excluded from the
+# build context — only the tarball is sent.
 build
 dist
 
@@ -35,6 +39,8 @@ client/.env
 # Ignore any build output or generated files
 client/build
 client/dist
+# But DO ship the pre-built tarball into the build context.
+!client/build.tar.gz
 
 # Ignore any logs or runtime data
 client/logs

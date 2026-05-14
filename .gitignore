@@ -31,6 +31,9 @@ client/.env
 .env
 
 # Ignore any build output or generated files
+# Note: the raw client/build/ tree is ignored; we ship a pre-built tarball
+# (client/build.tar.gz, committed) which the Dockerfile extracts at image
+# build time. Target host lacks RAM to run `npm run build` itself.
 client/build
 client/dist
 
