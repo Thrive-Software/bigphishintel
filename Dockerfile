@@ -8,8 +8,13 @@ COPY package*.json ./
 # Install backend dependencies
 RUN npm install
 
-# Copy entire source code (includes the pre-built client/build produced on the dev machine)
+# Copy entire source code (includes client/build.tar.gz — a pre-built React
+# bundle produced on the dev machine, since the target host lacks the RAM
+# to run `npm run build` itself).
 COPY . .
+
+# Extract the pre-built client bundle into client/build/ and drop the tarball.
+RUN tar -xzf client/build.tar.gz -C client/ && rm client/build.tar.gz
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /usr/src/app/
