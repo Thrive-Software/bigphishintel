@@ -31,20 +31,19 @@ export const validateHTMLContent = async (htmlContent) => {
 };
 
 /**
- * Validate placeholders in both single and double curly brackets
+ * Validate double-curly placeholders
  * @param {string} htmlContent
  * @param {string[]} supportedFields
  * @returns {string[]} - List of errors if invalid placeholders are detected
  */
 export const validatePlaceholders = (htmlContent, supportedFields) => {
-    const placeholderRegex = /{{?([^{}]+)}}?/g;
+    const placeholderRegex = /{{\s*([^{}]+?)\s*}}/g;
     const errors = [];
     let match;
 
     while ((match = placeholderRegex.exec(htmlContent)) !== null) {
-        const fieldName = match[1].trim(); // Extract field name from inside the curly brackets
+        const fieldName = match[1].trim();
 
-        // Check if fieldName exists in supportedFields
         if (!supportedFields.includes(fieldName)) {
             errors.push(`Unsupported field: ${fieldName}`);
         }
