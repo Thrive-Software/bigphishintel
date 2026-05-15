@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Container, TextField, Button, Grid, FormControlLabel, Checkbox, CircularProgress, Alert, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
-import { useNavigate } from 'react-router-dom';
-import { useSenderProfiles } from '../../hooks/useSenderProfiles'; // Import the hook
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSenderProfiles } from '../../hooks/useSenderProfiles';
 
 const CreateSenderProfile = () => {
     const navigate = useNavigate();
-    const { createSenderProfile, loading, error } = useSenderProfiles(); // Use the hook
+    const { id } = useParams();
+    const isEditMode = Boolean(id);
+    const {
+        createSenderProfile,
+        updateSenderProfile,
+        fetchSenderProfile,
+        loading,
+        error,
+    } = useSenderProfiles();
     const [senderName, setSenderName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,31 +26,69 @@ const CreateSenderProfile = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [fromAddress, setFromAddress] = useState('');
     const [replyTo, setReplyTo] = useState('');
+    const [loadError, setLoadError] = useState(null);
+
+    useEffect(() => {
+        if (!isEditMode) return;
+        let cancelled = false;
+        (async () => {
+            const response = await fetchSenderProfile(id);
+            if (cancelled) return;
+            if (response.success) {
+                const p = response.data;
+                setSenderName(p.senderName || '');
+                setEmail(p.email || '');
+                setHost(p.host || '');
+                setPort(p.port != null ? String(p.port) : '');
+                setSecure(Boolean(p.secure));
+                setFromAddress(p.fromAddress || '');
+                setReplyTo(p.replyTo || '');
+            } else {
+                setLoadError(response.message || 'Failed to load sender profile');
+            }
+        })();
+        return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, isEditMode]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newSenderProfile = {
+        const payload = {
             senderName,
             email,
-            password,
             host,
-            port: Number(port), // Convert port to a number
+            port: Number(port),
             secure,
             fromAddress,
-            replyTo
+            replyTo,
         };
+        // Only send password if the user typed one. On edit, omitting it keeps the stored value.
+        if (password.length > 0) {
+            payload.password = password;
+        } else if (!isEditMode) {
+            payload.password = '';
+        }
 
-        // Call the createSenderProfile function from the hook
-        const response = await createSenderProfile(newSenderProfile);
+        const response = isEditMode
+            ? await updateSenderProfile(id, payload)
+            : await createSenderProfile(payload);
 
         if (response.success) {
-            // Navigate to the desired page after successful form submission
-            navigate('/console/sender-profile'); // Replace with the actual route you want to navigate to
+            navigate('/console/sender-profile');
         } else {
-            console.error('Error creating sender profile:', response.message);
+            console.error('Error saving sender profile:', response.message);
         }
     };
+
+    const pageTitle = isEditMode ? 'Edit Sender Profile' : 'Create a New Sender Profile';
+    const pageSubtitle = isEditMode
+        ? 'Update the fields below. Leave the password blank to keep the existing one.'
+        : 'Fill in the details below to create a new sender profile.';
+    const submitLabel = isEditMode ? 'Save Changes' : 'Create Sender Profile';
+    const passwordHelper = isEditMode
+        ? 'Leave blank to keep the existing password. Enter a new value to replace it.'
+        : 'This field may be left blank if authentication is not required.';
 
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: "#fafafa" }}>
@@ -51,23 +97,23 @@ const CreateSenderProfile = () => {
                 <Container maxWidth="lg" sx={{ flexGrow: 1, mt: '110px', mb: 2 }}>
                     <Grid container spacing={2} sx={{ mb: 2 }}>
                         <Grid sx={{ pl: 2, pb: 2 }} xs={12}>
-                            <Typography 
-                                sx={{ 
-                                    mb: 1, 
+                            <Typography
+                                sx={{
+                                    mb: 1,
                                     fontWeight: 500,
                                     background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                     fontSize: { xs: '1rem', md: '1.5rem' }
-                                }} 
-                                variant="h4" 
+                                }}
+                                variant="h4"
                                 color="primary"
                             >
-                                Create a New Sender Profile
+                                {pageTitle}
                             </Typography>
                             <Typography sx={{ fontSize: 13 }} color="text.secondary">
-                                Fill in the details below to create a new sender profile.
+                                {pageSubtitle}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -149,12 +195,14 @@ const CreateSenderProfile = () => {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
-                                    label="Password (optional)"
+                                    label={isEditMode ? 'Password (leave blank to keep existing)' : 'Password (optional)'}
                                     variant="outlined"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     type={showPassword ? 'text' : 'password'}
-                                    helperText="This field may be left blank if authentication is not required."
+                                    placeholder={isEditMode ? '••••••••' : ''}
+                                    helperText={passwordHelper}
+                                    autoComplete="new-password"
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -212,14 +260,14 @@ const CreateSenderProfile = () => {
                             {/* Submit Button */}
                             <Grid item xs={12}>
                                 <Button type="submit" variant="contained" color="primary" disabled={loading}>
-                                    {loading ? <CircularProgress size={24} /> : 'Create Sender Profile'}
+                                    {loading ? <CircularProgress size={24} /> : submitLabel}
                                 </Button>
                             </Grid>
 
                             {/* Error Message */}
-                            {error && (
+                            {(error || loadError) && (
                                 <Grid item xs={12}>
-                                    <Alert severity="error">{error}</Alert>
+                                    <Alert severity="error">{error || loadError}</Alert>
                                 </Grid>
                             )}
                         </Grid>

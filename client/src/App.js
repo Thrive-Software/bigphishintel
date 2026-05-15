@@ -56,6 +56,7 @@ function App() {
 
           <Route path="/console/sender-profile" element={<ProtectedRoute><SenderProfile /></ProtectedRoute>} />
           <Route path="/console/sender-profile/create" element={<ProtectedRoute><CreateSenderProfile /></ProtectedRoute>} />
+          <Route path="/console/sender-profile/:id/edit" element={<ProtectedRoute><CreateSenderProfile /></ProtectedRoute>} />
 
           <Route path="/console/templates" element={<ProtectedRoute><Templates /></ProtectedRoute>} />
           <Route path="/console/templates/new" element={<ProtectedRoute><TemplateComposer /></ProtectedRoute>} />

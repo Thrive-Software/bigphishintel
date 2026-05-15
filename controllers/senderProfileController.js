@@ -1,6 +1,13 @@
 import SenderProfile from '../models/SenderProfile.js';
 import { verifySMTP } from '../services/smtpService.js';
 
+const stripPassword = (profile) => {
+  if (!profile) return profile;
+  const obj = profile.toObject ? profile.toObject() : { ...profile };
+  delete obj.password;
+  return obj;
+};
+
 // Create a new Sender Profile
 export const createSenderProfile = async (req, res) => {
   try {
@@ -26,7 +33,7 @@ export const createSenderProfile = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'Sender profile created successfully',
-      data: senderProfile,
+      data: stripPassword(senderProfile),
     });
   } catch (error) {
     res.status(500).json({
@@ -42,7 +49,7 @@ export const getAllSenderProfiles = async (req, res) => {
     const senderProfiles = await SenderProfile.find().sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
-      data: senderProfiles,
+      data: senderProfiles.map(stripPassword),
     });
   } catch (error) {
     res.status(500).json({
@@ -64,7 +71,7 @@ export const getSenderProfileById = async (req, res) => {
     }
     res.status(200).json({
       success: true,
-      data: senderProfile,
+      data: stripPassword(senderProfile),
     });
   } catch (error) {
     res.status(500).json({
@@ -79,23 +86,35 @@ export const updateSenderProfile = async (req, res) => {
   try {
     const { senderName, email, host, port, secure, password, fromAddress, replyTo } = req.body;
 
-    const senderProfile = await SenderProfile.findByIdAndUpdate(
-      req.params.id,
-      { senderName, email, host, port, secure, password, fromAddress, replyTo },
-      { new: true, runValidators: true }
-    );
-
-    if (!senderProfile) {
+    const existing = await SenderProfile.findById(req.params.id);
+    if (!existing) {
       return res.status(404).json({
         success: false,
         message: 'Sender profile not found',
       });
     }
 
+    // If no new password supplied, keep the stored one for both SMTP verification and persistence
+    const effectivePassword = password && password.length > 0 ? password : existing.password;
+
+    // Verify SMTP details before saving any changes
+    await verifySMTP({ host, port, secure, email, password: effectivePassword });
+
+    existing.senderName = senderName;
+    existing.email = email;
+    existing.host = host;
+    existing.port = port;
+    existing.secure = secure;
+    existing.password = effectivePassword;
+    existing.fromAddress = fromAddress;
+    existing.replyTo = replyTo;
+
+    await existing.save();
+
     res.status(200).json({
       success: true,
       message: 'Sender profile updated successfully',
-      data: senderProfile,
+      data: stripPassword(existing),
     });
   } catch (error) {
     res.status(500).json({

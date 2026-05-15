@@ -59,6 +59,57 @@ export const useSenderProfiles = () => {
         }
     };
 
+    // Function to fetch a single sender profile by ID
+    const fetchSenderProfile = async (id) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await axiosInstance.get(`/api/sender-profile/${id}`);
+            if (response.data.success) {
+                return { success: true, data: response.data.data };
+            }
+            const errorMessage = response.data.message || 'Unable to load sender profile';
+            setError(`An Error Occurred: ${errorMessage}`);
+            return { success: false, message: errorMessage };
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'A server error occurred.';
+            setError(`An Error Occurred: ${errorMessage}`);
+            return { success: false, message: errorMessage };
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Function to update an existing sender profile by ID
+    const updateSenderProfile = async (id, formData) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await axiosInstance.put(`/api/sender-profile/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.data.success) {
+                setSenderProfiles((prev) =>
+                    prev.map((p) => (p._id === id ? response.data.data : p))
+                );
+                return { success: true, data: response.data.data };
+            }
+
+            const errorMessage = response.data.message || 'Unable to complete request';
+            setError(`An Error Occurred: ${errorMessage}`);
+            return { success: false, message: errorMessage };
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'A server error occurred.';
+            setError(`An Error Occurred: ${errorMessage}`);
+            return { success: false, message: errorMessage };
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Function to delete a sender profile by ID
     const handleDelete = async (id) => {
         setLoading(true);
@@ -89,7 +140,9 @@ export const useSenderProfiles = () => {
         loading,
         error,
         fetchSenderProfiles,
+        fetchSenderProfile,
         createSenderProfile,
+        updateSenderProfile,
         handleDelete
     };
 };

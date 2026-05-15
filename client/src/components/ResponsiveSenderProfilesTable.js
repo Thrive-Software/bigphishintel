@@ -17,12 +17,14 @@ import {
     TableHead,
     TableRow
 } from '@mui/material';
-import { 
+import {
     HighlightOff as HighlightOffIcon,
+    Edit as EditIcon,
     Email as EmailIcon,
     Settings as SettingsIcon,
     Security as SecurityIcon
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { formatDataGridDate } from '../utils/dateUtils';
 
 const ResponsiveSenderProfilesTable = ({ 
@@ -31,9 +33,14 @@ const ResponsiveSenderProfilesTable = ({
     onDeleteProfile 
 }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'lg'));
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
+    const handleEditProfile = (profileId) => {
+        navigate(`/console/sender-profile/${profileId}/edit`);
+    };
     
     // Add window width state for continuous resizing
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -152,9 +159,18 @@ const ResponsiveSenderProfilesTable = ({
             case 'actions':
                 return (
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                        <Tooltip title="Edit Profile">
+                            <IconButton
+                                color="primary"
+                                size="small"
+                                onClick={() => handleEditProfile(profile._id)}
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
                         <Tooltip title="Delete Profile">
-                            <IconButton 
-                                color="error" 
+                            <IconButton
+                                color="error"
                                 size="small"
                                 onClick={() => onDeleteProfile(profile._id)}
                             >
@@ -237,9 +253,18 @@ const ResponsiveSenderProfilesTable = ({
                             
                             {/* Actions */}
                             <Box sx={{ display: 'flex', gap: 0.5, ml: 1 }}>
+                                <Tooltip title="Edit Profile">
+                                    <IconButton
+                                        color="primary"
+                                        size="small"
+                                        onClick={() => handleEditProfile(profile._id)}
+                                    >
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
                                 <Tooltip title="Delete Profile">
-                                    <IconButton 
-                                        color="error" 
+                                    <IconButton
+                                        color="error"
                                         size="small"
                                         onClick={() => onDeleteProfile(profile._id)}
                                     >
