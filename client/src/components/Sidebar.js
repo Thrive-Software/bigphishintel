@@ -251,7 +251,7 @@ const Sidebar = () => {
               <Divider sx={{ my: 1 }} />
               <Box sx={{ px: 2, py: 0.5 }}>
                 <Typography variant="caption" color="text.secondary">
-                  Community Edition
+                  Thrive Edition
                 </Typography>
                 <Typography variant="caption" color="text.secondary" display="block">
                   Release Date: {releaseDate || 'N/A'}
