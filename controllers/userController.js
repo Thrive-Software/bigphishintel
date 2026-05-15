@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import userService from '../services/userService.js';
 
 // Utility to sanitize user output (never expose password or sensitive fields)
@@ -57,6 +58,12 @@ export async function changePassword(req, res) {
     if (!currentPassword || !newPassword) {
       return res.status(400).json({ success: false, error: 'Current password and new password are required' });
     }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, error: 'New password must be at least 6 characters' });
+    }
+    if (newPassword === currentPassword) {
+      return res.status(400).json({ success: false, error: 'New password must be different from current password' });
+    }
     const user = await userService.findUserById(req.user._id);
     if (!user) return res.status(404).json({ success: false, error: 'User not found' });
     const valid = await user.comparePassword(currentPassword);
@@ -64,8 +71,23 @@ export async function changePassword(req, res) {
       return res.status(400).json({ success: false, error: 'Current password is incorrect' });
     }
     user.password = newPassword;
+    user.mustChangePassword = false;
     await user.save();
-    res.json({ success: true, message: 'Password updated successfully' });
+    // Re-issue JWT so the cleared mustChangePassword flag is reflected client-side
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        mustChangePassword: false,
+      },
+      process.env.SESSION_SECRET,
+      { expiresIn: '24h' }
+    );
+    res.json({ success: true, message: 'Password updated successfully', token });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -97,6 +119,8 @@ export async function createUser(req, res) {
     }
     // never let an API caller create another root admin
     payload.isRoot = false;
+    // New accounts must change their password on first login
+    payload.mustChangePassword = true;
     if (payload.role && !['admin', 'user'].includes(payload.role)) {
       return res.status(400).json({ success: false, error: 'Invalid role' });
     }
@@ -202,6 +226,7 @@ export async function resetUserPassword(req, res) {
     const user = await userService.findUserById(req.params.id);
     if (!user) return res.status(404).json({ success: false, error: 'User not found' });
     user.password = newPassword;
+    user.mustChangePassword = true;
     await user.save();
     res.json({ success: true, message: 'Password reset successfully' });
   } catch (err) {

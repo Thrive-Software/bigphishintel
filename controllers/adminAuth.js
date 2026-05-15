@@ -45,7 +45,8 @@ router.post('/', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        role: user.role
+        role: user.role,
+        mustChangePassword: !!user.mustChangePassword
       },
       process.env.SESSION_SECRET,
       { expiresIn: '24h' }
@@ -53,7 +54,8 @@ router.post('/', async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Login successful',
-      token
+      token,
+      mustChangePassword: !!user.mustChangePassword
     });
   } catch (err) {
     return res.status(500).json({

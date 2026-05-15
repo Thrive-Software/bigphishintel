@@ -24,9 +24,13 @@ export const useLogin = () => {
             setError(''); // Clear previous errors
             const response = await loginUser(loginData);
             setLoading(false);
-            const { token } = response.data;
+            const { token, mustChangePassword } = response.data;
             setToken(token); // Store the token
-            // Store the user info, if needed
+            // Force first-login / post-reset password change
+            if (mustChangePassword) {
+                navigate('/console/force-password-change', { replace: true });
+                return;
+            }
             navigate('/console/dashboard'); // or wherever you want to redirect after login
         } catch (error) {
             setLoading(false);

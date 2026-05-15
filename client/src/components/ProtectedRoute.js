@@ -1,12 +1,27 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import { getToken } from '../utils/tokenManager';
 
 const ProtectedRoute = ({ children }) => {
-    const token = getToken(); // Check for token (no API call by default)
+    const token = getToken();
+    const location = useLocation();
 
-    // If token exists, allow access. Otherwise, redirect to login page.
-    return token ? children : <Navigate to="/console" replace />;
+    if (!token) return <Navigate to="/console" replace />;
+
+    try {
+        const decoded = jwtDecode(token);
+        if (
+            decoded?.mustChangePassword &&
+            location.pathname !== '/console/force-password-change'
+        ) {
+            return <Navigate to="/console/force-password-change" replace />;
+        }
+    } catch (e) {
+        return <Navigate to="/console" replace />;
+    }
+
+    return children;
 };
 
 export default ProtectedRoute;

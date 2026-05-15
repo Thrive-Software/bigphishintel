@@ -28,6 +28,7 @@ async function initRootAdmin() {
       role: 'admin',
       accountLocked: false,
       isRoot: true,
+      mustChangePassword: true,
     });
     console.log('Root admin user created successfully:', rootAdmin.username);
     process.exit(0);

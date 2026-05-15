@@ -1,4 +1,5 @@
 import { axiosInstance } from './axiosInstance';
+import { setToken } from '../utils/tokenManager';
 
 export const getMe = async () => {
   const res = await axiosInstance.get('/api/users/me');
@@ -15,6 +16,10 @@ export const changePassword = async (currentPassword, newPassword) => {
     currentPassword,
     newPassword,
   });
+  // Backend rotates the JWT on success (clears the mustChangePassword flag).
+  if (res.data?.token) {
+    setToken(res.data.token);
+  }
   return res.data;
 };
 

@@ -26,6 +26,7 @@ import CampaignDetail from './pages/Campaign/CampaignDetail';
 
 import Account from './pages/Account';
 import Users from './pages/Users';
+import ForcePasswordChange from './pages/ForcePasswordChange';
 
 import NotFoundPage from './pages/NotFound';
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="/console" element={<ConsoleEntry />} />
           <Route path="/account/signin" element={<MSPortal />} />
           <Route path="/accounts/google" element={<GooglePortal />} />
+          <Route path="/console/force-password-change" element={<ProtectedRoute><ForcePasswordChange /></ProtectedRoute>} />
           <Route path="/console/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
 
           <Route path="/console/audience" element={<ProtectedRoute><Audience /></ProtectedRoute>} />

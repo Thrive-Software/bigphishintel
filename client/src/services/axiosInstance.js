@@ -38,6 +38,15 @@ axiosInstance.interceptors.response.use(
                 window.location.href = '/console';
             }
         }
+        // Backend forces a password change before any other API access.
+        if (
+            error.response &&
+            error.response.status === 403 &&
+            error.response.data?.code === 'MUST_CHANGE_PASSWORD' &&
+            !window.location.pathname.startsWith('/console/force-password-change')
+        ) {
+            window.location.href = '/console/force-password-change';
+        }
         return Promise.reject(error);
     }
 );
