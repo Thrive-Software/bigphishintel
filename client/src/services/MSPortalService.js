@@ -14,7 +14,8 @@ export const logClick = async (trackingId) => {
         });
 
         if (response.ok) {
-            return { success: true };
+            const data = await response.json();
+            return { success: true, firstName: data.firstName || null };
         } else {
             const data = await response.json();
             return { success: false, message: data.message || 'Failed to log click' };

