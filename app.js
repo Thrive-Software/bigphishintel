@@ -45,7 +45,14 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+            'connect-src': ["'self'", 'https://api.pwnedpasswords.com'],
+        },
+    },
+}));
 
 if (process.env.NODE_ENV === 'development') {
     const sensitivePaths = ['/api/users/me/change-password', '/api/integrations/ai', '/api/sender-profile'];
