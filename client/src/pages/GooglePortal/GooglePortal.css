@@ -309,11 +309,11 @@ body.g-portal-body {
 
 @media (prefers-color-scheme: dark) {
     body.g-portal-body {
-        background: #1f1f1f none !important;
+        background: #000000 none !important;
     }
 
     .g-portal {
-        background-color: #1f1f1f;
+        background-color: #000000;
         color: #e3e3e3;
     }
 
@@ -384,7 +384,7 @@ body.g-portal-body {
     }
 
     .g-loading-container {
-        background-color: #1f1f1f;
+        background-color: #000000;
     }
 
     .g-spinner {
