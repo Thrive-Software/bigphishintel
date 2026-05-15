@@ -24,6 +24,7 @@ import {
   Outbox as OutboxIcon,
   Email as EmailIcon,
   Campaign as CampaignIcon,
+  ManageAccounts as ManageAccountsIcon,
   Menu as MenuIcon,
   Info as InfoIcon,
   Help as HelpIcon,
@@ -100,6 +101,7 @@ const Sidebar = () => {
   };
 
   // Primary nav: grouped items (Account lives at bottom, not as a group)
+  const isAdmin = user?.role === 'admin';
   const menuItems = [
     {
       group: 'Main',
@@ -116,6 +118,14 @@ const Sidebar = () => {
         { text: 'Campaign', icon: <CampaignIcon />, path: '/console/campaign' },
       ],
     },
+    ...(isAdmin
+      ? [{
+          group: 'Administration',
+          items: [
+            { text: 'Users', icon: <ManageAccountsIcon />, path: '/console/users' },
+          ],
+        }]
+      : []),
   ];
 
   const accountNavItem = { text: 'Account', icon: <AccountCircleIcon />, path: '/console/account/profile' };

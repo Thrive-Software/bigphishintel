@@ -21,6 +21,10 @@ export async function findRootAdmin() {
   return User.findOne({ isRoot: true });
 }
 
+export async function listUsers() {
+  return User.find({}).sort({ createdAt: -1 });
+}
+
 export async function updateUser(userId, updateData) {
   return User.findByIdAndUpdate(userId, updateData, { new: true });
 }
@@ -35,6 +39,7 @@ const userService = {
   findUserByUsername,
   findUserByEmail,
   findRootAdmin,
+  listUsers,
   updateUser,
   deleteUser,
 };

@@ -55,7 +55,7 @@ app.use(helmet({
 }));
 
 if (process.env.NODE_ENV === 'development') {
-    const sensitivePaths = ['/api/users/me/change-password', '/api/integrations/ai', '/api/sender-profile'];
+    const sensitivePaths = ['/api/users/me/change-password', '/api/users', '/api/integrations/ai', '/api/sender-profile'];
     const redactKeys = ['password', 'currentPassword', 'newPassword', 'apiKey'];
     logger.token("body", (req) => {
         const url = (req.originalUrl || req.url || '').split('?')[0];

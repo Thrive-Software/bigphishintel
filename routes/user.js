@@ -10,10 +10,13 @@ router.get('/me', authMiddleware, userController.getMe);
 router.put('/me', authMiddleware, userController.updateMe);
 router.post('/me/change-password', authMiddleware, userController.changePassword);
 
+router.get('/', authMiddleware, userController.listUsers);
 router.post('/', authMiddleware, userController.createUser);
 router.get('/username/:username', authMiddleware, userController.getUserByUsername);
 router.get('/email/:email', authMiddleware, userController.getUserByEmail);
+router.get('/:id', authMiddleware, userController.getUserById);
 router.put('/:id', authMiddleware, userController.updateUser);
+router.post('/:id/reset-password', authMiddleware, userController.resetUserPassword);
 router.delete('/:id', authMiddleware, userController.deleteUser);
 
-export default router; 
+export default router;

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import ConsoleEntry from './components/ConsoleEntry';
 import './App.css';
 
@@ -24,6 +25,7 @@ import StartCampaign from './pages/Campaign/StartCampaign';
 import CampaignDetail from './pages/Campaign/CampaignDetail';
 
 import Account from './pages/Account';
+import Users from './pages/Users';
 
 import NotFoundPage from './pages/NotFound';
 
@@ -67,6 +69,8 @@ function App() {
           <Route path="/console/campaign/:id" element={<ProtectedRoute><CampaignDetail /></ProtectedRoute>} />
 
           <Route path="/console/account/*" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+
+          <Route path="/console/users" element={<AdminRoute><Users /></AdminRoute>} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
