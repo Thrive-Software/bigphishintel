@@ -306,3 +306,101 @@ body.g-portal-body {
         background-color: #ffffff;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body.g-portal-body {
+        background: #1f1f1f none !important;
+    }
+
+    .g-portal {
+        background-color: #1f1f1f;
+        color: #e3e3e3;
+    }
+
+    .g-card {
+        background-color: #1f1f1f;
+    }
+
+    .g-title,
+    .g-subtitle,
+    .g-helper,
+    .g-account-email {
+        color: #e3e3e3;
+    }
+
+    .g-input {
+        color: #e3e3e3;
+        background-color: #1f1f1f;
+        border-color: #8e918f;
+    }
+
+    .g-input:hover {
+        border-color: #e3e3e3;
+    }
+
+    .g-input:focus {
+        border-color: #a8c7fa;
+    }
+
+    .g-label {
+        color: #c4c7c5;
+        background-color: #1f1f1f;
+    }
+
+    .g-input:focus + .g-label {
+        color: #a8c7fa;
+    }
+
+    .g-link {
+        color: #a8c7fa;
+    }
+
+    .g-btn-next {
+        background-color: #a8c7fa;
+        color: #062e6f;
+    }
+
+    .g-btn-next:hover {
+        background-color: #c2d7fb;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+    }
+
+    .g-account-chip {
+        border-color: #8e918f;
+    }
+
+    .g-account-chip:hover {
+        background-color: #2d2e30;
+    }
+
+    .g-account-avatar {
+        background-color: #a8c7fa;
+        color: #062e6f;
+    }
+
+    .g-footer-lang,
+    .g-footer-link {
+        color: #c4c7c5;
+    }
+
+    .g-loading-container {
+        background-color: #1f1f1f;
+    }
+
+    .g-spinner {
+        border-color: #3c4043;
+        border-top-color: #a8c7fa;
+    }
+}
+
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+    .g-portal,
+    .g-card,
+    .g-loading-container {
+        background-color: #1f1f1f;
+    }
+
+    body.g-portal-body {
+        background: #1f1f1f none !important;
+    }
+}

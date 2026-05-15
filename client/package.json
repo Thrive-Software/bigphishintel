@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -31,7 +31,7 @@
     "bump:patch": "npm version patch --no-git-tag-version",
     "write:version": "node -e \"const fs=require('fs');const v=require('./package.json').version;const d=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});fs.writeFileSync('../VERSION',v+'|'+d);\"",
     "package:build": "tar -czf build.tar.gz build",
-"build": "npm run bump:patch && npm run write:version && react-scripts build && npm run package:build",
+    "build": "npm run bump:patch && npm run write:version && react-scripts build && npm run package:build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
