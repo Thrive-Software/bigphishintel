@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Typography, Box, Button, Grid, IconButton, Alert, CircularProgress } from '@mui/material';
+import { Typography, Box, Button, Grid, IconButton, Alert, CircularProgress, Chip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { DataGrid } from '@mui/x-data-grid';
@@ -28,8 +28,32 @@ const Submission = () => {
         deleteSubmission(submissionId);
     };
 
+    const renderPasswordCell = (params) => {
+        const value = params.value;
+        if (value === 'not-breached') {
+            return <Chip label="Not in known breaches" color="warning" size="small" variant="outlined" />;
+        }
+        if (value === 'breached:unknown') {
+            return <Chip label="Lookup failed" size="small" variant="outlined" />;
+        }
+        if (typeof value === 'string' && value.startsWith('breached:')) {
+            const count = parseInt(value.slice('breached:'.length), 10);
+            if (Number.isFinite(count)) {
+                return <Chip label={`Seen ${count.toLocaleString()} times`} color="error" size="small" variant="outlined" />;
+            }
+        }
+        return <Chip label={value || '—'} size="small" variant="outlined" />;
+    };
+
     const columns = [
         { field: 'email', headerName: 'Email', flex: 0.4 },
+        {
+            field: 'password',
+            headerName: 'Password',
+            flex: 0.35,
+            renderCell: renderPasswordCell,
+            sortable: false,
+        },
         { field: 'ipAddress', headerName: 'IP Address', flex: 0.3 },
         { field: 'device', headerName: 'Device', flex: 0.5 },
         { 
