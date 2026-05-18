@@ -31,7 +31,7 @@ import ResponsiveContactsTable from '../../components/ResponsiveContactsTable';
 const AudienceDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { audienceDetail, fetchAudienceDetail, deleteAudience, addContact, deleteContact, uploadCSVToAudience, loading, error } = useAudience();
+    const { audienceDetail, fetchAudienceDetail, deleteAudience, addContact, updateContact, deleteContact, uploadCSVToAudience, loading, error } = useAudience();
     const [contacts, setContacts] = useState([]);
     const [hasFetched, setHasFetched] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -222,6 +222,22 @@ const AudienceDetail = () => {
     const handleCloseViewDialog = () => {
         setOpenViewDialog(false);
         setSelectedContact(null);
+    };
+
+    const handleSaveContact = async (contactId, updatedFields) => {
+        const response = await updateContact(id, contactId, updatedFields);
+        if (response.success) {
+            setContacts((prevContacts) => prevContacts.map(contact =>
+                contact._id === contactId ? response.data : contact
+            ));
+            setSelectedContact(response.data);
+        } else {
+            setErrorSnackbar({
+                open: true,
+                message: response.message || 'Failed to update contact'
+            });
+        }
+        return response;
     };
 
     return (
@@ -529,11 +545,12 @@ const AudienceDetail = () => {
                 uploadMessage={uploadMessage}
             />
 
-            {/* View Contact Dialog */}
+            {/* View / Edit Contact Dialog */}
             <ContactDetailsDialog
                 open={openViewDialog}
                 onClose={handleCloseViewDialog}
                 contact={selectedContact}
+                onSaveContact={handleSaveContact}
             />
 
             {/* Error Snackbar */}

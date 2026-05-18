@@ -118,6 +118,32 @@ export const useAudience = () => {
         }
     };
 
+    const updateContact = async (audienceId, contactId, contactData) => {
+        setLoading(true);
+        try {
+            const response = await axiosInstance.put(`/api/audience/${audienceId}/contact/${contactId}`, contactData);
+            if (response.data.success) {
+                // Replace the updated contact within audienceDetail
+                setAudienceDetail((prevDetail) => prevDetail ? ({
+                    ...prevDetail,
+                    contacts: (prevDetail.contacts || []).map(contact =>
+                        contact._id === contactId ? response.data.data : contact
+                    ),
+                }) : prevDetail);
+                return { success: true, data: response.data.data };
+            } else {
+                setError(response.data.message);
+                return { success: false, message: response.data.message };
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || error.message;
+            setError(errorMessage);
+            return { success: false, message: errorMessage };
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const deleteContact = async (audienceId, contactId) => {
         setLoading(true);
         try {
@@ -171,5 +197,5 @@ export const useAudience = () => {
         }
     };
 
-    return { audiences, audienceDetail, createAudience, fetchAudienceDetail, deleteAudience, addContact, deleteContact, uploadCSVToAudience, loading, error };
+    return { audiences, audienceDetail, createAudience, fetchAudienceDetail, deleteAudience, addContact, updateContact, deleteContact, uploadCSVToAudience, loading, error };
 };

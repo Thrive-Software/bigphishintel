@@ -5,6 +5,7 @@ import {
     getAudienceById,
     deleteAudience,
     addContactToAudience,
+    updateContactInAudience,
     deleteContactFromAudience,
     uploadCSVToAudience
 } from '../controllers/audienceController.js';
@@ -26,6 +27,9 @@ router.post('/:id/upload-csv', uploadCSV, uploadCSVToAudience);
 // Read
 router.get('/', getAllAudiences);
 router.get('/:id', getAudienceById);
+
+// Update
+router.put('/:id/contact/:contactId', updateContactInAudience);
 
 // Delete
 router.delete('/:id', deleteAudience);

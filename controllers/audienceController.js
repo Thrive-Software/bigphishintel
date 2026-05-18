@@ -272,6 +272,82 @@ export const addContactToAudience = async (req, res) => {
 };
 
 
+// Update a specific contact in an audience
+export const updateContactInAudience = async (req, res) => {
+    try {
+        const { id, contactId } = req.params;
+        const { firstName, lastName, email, phoneNumber, role, country, metadata } = req.body;
+
+        // Validate required fields
+        if (firstName !== undefined && !firstName) {
+            return res.status(400).json({
+                success: false,
+                message: 'First name cannot be empty'
+            });
+        }
+        if (email !== undefined && !email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email cannot be empty'
+            });
+        }
+
+        // Find the audience and ensure the contact belongs to it
+        const audience = await Audience.findById(id).populate('contacts');
+        if (!audience) {
+            return res.status(404).json({
+                success: false,
+                message: 'Audience not found'
+            });
+        }
+
+        const contact = audience.contacts.find(c => c._id.toString() === contactId);
+        if (!contact) {
+            return res.status(404).json({
+                success: false,
+                message: 'Contact not found in this audience'
+            });
+        }
+
+        // If the email is being changed, ensure no other contact in this audience uses it
+        if (email && email.toLowerCase() !== contact.email.toLowerCase()) {
+            const emailExists = audience.contacts.some(c =>
+                c._id.toString() !== contactId &&
+                c.email.toLowerCase() === email.toLowerCase()
+            );
+            if (emailExists) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'A contact with this email already exists in this audience'
+                });
+            }
+        }
+
+        // Apply updates
+        if (firstName !== undefined) contact.firstName = firstName;
+        if (lastName !== undefined) contact.lastName = lastName;
+        if (email !== undefined) contact.email = email;
+        if (phoneNumber !== undefined) contact.phoneNumber = phoneNumber;
+        if (role !== undefined) contact.role = role;
+        if (country !== undefined) contact.country = country;
+        if (metadata !== undefined) contact.metadata = metadata;
+
+        const updatedContact = await contact.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Contact updated successfully',
+            data: updatedContact
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
 // Delete a specific contact from an audience
 export const deleteContactFromAudience = async (req, res) => {
     try {

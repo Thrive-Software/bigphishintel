@@ -163,7 +163,7 @@ const ResponsiveContactsTable = ({
             case 'actions':
                 return (
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
-                        <Tooltip title="View Details">
+                        <Tooltip title="View / Edit">
                             <IconButton 
                                 color="primary" 
                                 size="small"
@@ -236,7 +236,7 @@ const ResponsiveContactsTable = ({
                                 
                                 {/* Actions */}
                                 <Box sx={{ display: 'flex', gap: 0.5, ml: 1 }}>
-                                    <Tooltip title="View Details">
+                                    <Tooltip title="View / Edit">
                                         <IconButton 
                                             color="primary" 
                                             size="small"
