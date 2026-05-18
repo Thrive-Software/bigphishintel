@@ -16,9 +16,36 @@ import {
   Alert,
   CircularProgress,
   Box,
+  InputAdornment,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
+import {
+  Visibility,
+  VisibilityOff,
+  ContentCopy as ContentCopyIcon,
+  Check as CheckIcon,
+} from '@mui/icons-material';
 
 const MIN_PASSWORD_LENGTH = 6;
+const GENERATED_PASSWORD_LENGTH = 16;
+const PORTAL_URL = 'https://phishintel.thrive.uk.com/console';
+
+// Excludes visually ambiguous characters (0/O, 1/l/I) so generated passwords
+// can be read aloud or transcribed without confusion.
+const PASSWORD_ALPHABET =
+  'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*';
+
+const generateSecurePassword = (length = GENERATED_PASSWORD_LENGTH) => {
+  const alphabet = PASSWORD_ALPHABET;
+  const buf = new Uint32Array(length);
+  window.crypto.getRandomValues(buf);
+  let out = '';
+  for (let i = 0; i < length; i += 1) {
+    out += alphabet[buf[i] % alphabet.length];
+  }
+  return out;
+};
 
 const blank = {
   firstName: '',
@@ -36,6 +63,8 @@ const UserFormDialog = ({ open, onClose, onSubmit, user }) => {
   const [form, setForm] = useState(blank);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -50,14 +79,36 @@ const UserFormDialog = ({ open, onClose, onSubmit, user }) => {
         accountLocked: !!user.accountLocked,
       });
     } else {
-      setForm(blank);
+      setForm({ ...blank, password: generateSecurePassword() });
     }
     setError('');
+    setShowPassword(false);
+    setCopied(false);
   }, [open, user]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((p) => ({ ...p, [name]: type === 'checkbox' ? checked : value }));
+    if (name === 'username' || name === 'password') setCopied(false);
+  };
+
+  const handleRegeneratePassword = () => {
+    setForm((p) => ({ ...p, password: generateSecurePassword() }));
+    setShowPassword(true);
+    setCopied(false);
+  };
+
+  const handleCopyInfo = async () => {
+    const snippet =
+      `PhishIntel Portal: ${PORTAL_URL}\n` +
+      `Username: ${form.username}\n` +
+      `Password: ${form.password}`;
+    try {
+      await navigator.clipboard.writeText(snippet);
+      setCopied(true);
+    } catch (err) {
+      setError('Could not copy to clipboard. Copy the password manually before closing.');
+    }
   };
 
   const validate = () => {
@@ -101,6 +152,8 @@ const UserFormDialog = ({ open, onClose, onSubmit, user }) => {
     }
   };
 
+  const canCopyInfo = !isEdit && form.username.trim() && form.password.length >= MIN_PASSWORD_LENGTH;
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <Box component="form" onSubmit={handleSubmit}>
@@ -143,11 +196,33 @@ const UserFormDialog = ({ open, onClose, onSubmit, user }) => {
             {!isEdit && (
               <Grid item xs={12}>
                 <TextField
-                  fullWidth required label="Initial password" name="password" type="password"
+                  fullWidth required label="Initial password" name="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={form.password} onChange={handleChange}
-                  helperText={`At least ${MIN_PASSWORD_LENGTH} characters. Share this with the user securely.`}
+                  helperText={`Auto-generated. At least ${MIN_PASSWORD_LENGTH} characters. Share this with the user securely.`}
                   autoComplete="new-password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip title={showPassword ? 'Hide password' : 'Show password'}>
+                          <IconButton
+                            onClick={() => setShowPassword((s) => !s)}
+                            edge="end"
+                            size="small"
+                            aria-label={showPassword ? 'Hide password' : 'Show password'}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
+                <Box sx={{ mt: 1 }}>
+                  <Button size="small" onClick={handleRegeneratePassword}>
+                    Regenerate password
+                  </Button>
+                </Box>
               </Grid>
             )}
             <Grid item xs={12} sm={6}>
@@ -182,6 +257,16 @@ const UserFormDialog = ({ open, onClose, onSubmit, user }) => {
           </Grid>
         </DialogContent>
         <DialogActions>
+          {!isEdit && (
+            <Button
+              onClick={handleCopyInfo}
+              disabled={!canCopyInfo}
+              startIcon={copied ? <CheckIcon /> : <ContentCopyIcon />}
+              sx={{ mr: 'auto' }}
+            >
+              {copied ? 'Copied' : 'Copy Info To Clipboard'}
+            </Button>
+          )}
           <Button onClick={onClose} disabled={submitting}>Cancel</Button>
           <Button type="submit" variant="contained" disabled={submitting}>
             {submitting ? <CircularProgress size={20} /> : (isEdit ? 'Save changes' : 'Create user')}
