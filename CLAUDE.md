@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Common commands
 
-The repo is split into a Node/Express backend at the repo root and a Create React App frontend in `client/`. They run as separate dev servers and are stitched together in production by serving `client/build` from Express.
+The repo is split into a Node/Express backend at the repo root and a Vite + React frontend in `client/`. They run as separate dev servers and are stitched together in production by serving `client/build` from Express.
 
 ### Backend (repo root)
 - `npm install` — install backend deps
@@ -18,16 +18,18 @@ The repo is split into a Node/Express backend at the repo root and a Create Reac
 - Run a single test: `npx jest path/to/file.test.js` or `npx jest -t "test name"`.
 
 ### Frontend (`client/`)
-- `cd client && npm install && npm start` — dev server on `:3000` (CRA / react-scripts 5).
-- `npm run build` — production bundle to `client/build/`, served by Express in prod.
-- `npm test` — react-scripts test runner.
+- `cd client && npm install && npm start` — Vite dev server on `:3000`.
+- `npm run build` — production bundle to `client/build/` (Vite, `build.outDir` set in `vite.config.js`), then tars to `client/build.tar.gz` for the Docker build. Served by Express in prod.
+- `npm test` — Vitest runner (jsdom env, setup in `src/setupTests.js`).
+- Source files use the `.js` extension but contain JSX. `vite.config.js` configures esbuild and the dep optimizer with `loader: 'jsx'` so this works without renaming. New files can use `.jsx` if preferred.
+- Env vars exposed to the client must be prefixed `VITE_` (e.g. `VITE_VERSION`). Read them via `import.meta.env.VITE_*`. Build/runtime mode checks use `import.meta.env.PROD` / `import.meta.env.DEV`.
 
 ### Docker
 - `docker-compose up` — brings up MongoDB + app together (recommended). Data persists in the `phishintel_mongo_data` volume. `docker-compose down -v` wipes data.
 - The Dockerfile is multi-stage: builds the React client, then copies `client/build` into the backend image. ENTRYPOINT is `docker-entrypoint.sh`, which runs `initRootAdmin.js` then `node app.js`.
 
 ### Required env vars
-`NODE_ENV`, `DB_URL`, `ADMIN_PASSWORD`, `SESSION_SECRET` are validated at startup in [app.js:17-31](app.js#L17-L31) and the process exits if any are missing. `PORT` defaults to 8080. Frontend optionally reads `REACT_APP_API_URL`.
+`NODE_ENV`, `DB_URL`, `ADMIN_PASSWORD`, `SESSION_SECRET` are validated at startup in [app.js:17-31](app.js#L17-L31) and the process exits if any are missing. `PORT` defaults to 8080. The frontend has no required env vars; `VITE_VERSION` is an optional fallback used by `client/src/services/versionService.js`.
 
 ## Architecture
 
@@ -58,7 +60,7 @@ The conventional Express layering is consistent across features:
 A SenderProfile's `email` field is **dual-purpose**: SMTP auth username AND the historical FROM-header source. The model now also has optional `fromAddress` and `replyTo` fields. In `emailService.js` the FROM is chosen as: `fromAddress` if valid → else `email` if valid → else hardcoded `no-reply@mail.com`. `replyTo` is only set on the outgoing mail when it's a valid email. Existing profiles without the new fields behave exactly as before.
 
 ### Frontend
-React 18 + Material-UI v6 + react-router v6, talking to the backend via `axios`. Pages live under `client/src/pages/<Feature>/`, with hooks under `client/src/hooks/` (e.g. `useSenderProfiles`) wrapping API calls. The frontend is served as static files from `client/build` in production; in dev it runs separately on `:3000` and CORS in `app.js` whitelists `localhost:3000`.
+React 18 + Material-UI v6 + react-router v6, talking to the backend via `axios`. Built with Vite. Pages live under `client/src/pages/<Feature>/`, with hooks under `client/src/hooks/` (e.g. `useSenderProfiles`) wrapping API calls. The frontend is served as static files from `client/build` in production; in dev it runs separately on `:3000` and CORS in `app.js` whitelists `localhost:3000`.
 
 ## Conventions and gotchas
 

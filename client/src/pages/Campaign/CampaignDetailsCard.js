@@ -1,6 +1,16 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography, Divider, Chip } from '@mui/material';
-import { Campaign, Email, Mouse, BarChart, Person, Group } from '@mui/icons-material';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
+import Campaign from '@mui/icons-material/Campaign';
+import Email from '@mui/icons-material/Email';
+import Mouse from '@mui/icons-material/Mouse';
+import BarChart from '@mui/icons-material/BarChart';
+import Person from '@mui/icons-material/Person';
+import Group from '@mui/icons-material/Group';
 
 const CampaignDetailsCard = ({ campaign }) => {
     return (

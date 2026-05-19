@@ -1,7 +1,8 @@
 {
   "name": "client",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -10,9 +11,9 @@
     "@mui/styled-engine": "^6.1.2",
     "@mui/system": "^6.1.2",
     "@mui/x-data-grid": "^7.19.0",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@uiw/react-md-editor": "^4.0.11",
     "axios": "^1.7.7",
     "chartjs-adapter-dayjs-4": "^1.0.4",
@@ -24,37 +25,22 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "vite",
     "bump:patch": "npm version patch --no-git-tag-version",
     "write:version": "node -e \"const fs=require('fs');const v=require('./package.json').version;const d=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});fs.writeFileSync('../VERSION',v+'|'+d);\"",
     "package:build": "tar -czf build.tar.gz build",
-    "build": "npm run bump:patch && npm run write:version && react-scripts build && npm run package:build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "npm run bump:patch && npm run write:version && vite build && npm run package:build",
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "devDependencies": {
-    "jest": "^27.5.1",
-    "react-scripts": "5.0.1"
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "vite": "^6.0.3",
+    "vite-plugin-svgr": "^4.5.0",
+    "vitest": "^2.1.8"
   }
 }

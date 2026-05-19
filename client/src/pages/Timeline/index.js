@@ -1,5 +1,9 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, Divider } from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
 import { Line } from 'react-chartjs-2';
 import Sidebar from '../../components/Sidebar';  // Import Sidebar
 import Footer from '../../components/Footer';    // Import Footer

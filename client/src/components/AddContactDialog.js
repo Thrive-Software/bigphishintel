@@ -1,18 +1,17 @@
 import React from 'react';
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Button,
-    TextField,
-    Grid,
-    Autocomplete,
-    Box,
-    Typography
-} from '@mui/material';
-import { Add, Person } from '@mui/icons-material';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Add from '@mui/icons-material/Add';
+import Person from '@mui/icons-material/Person';
 import { COUNTRIES } from '../utils/constants';
 import { 
     dialogPaperProps, 

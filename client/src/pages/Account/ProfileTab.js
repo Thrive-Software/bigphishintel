@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  TextField,
-  Button,
-  Alert,
-  CircularProgress,
-  Paper,
-  Grid,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import { getMe, updateMe } from '../../services/userService';
 
 const ProfileTab = () => {

@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-    Typography,
-    Container,
-    Box,
-    Button,
-    Grid,
-    Tabs,
-    Tab,
-    Menu,
-    MenuItem,
-    Link,
-    ListItemIcon,
-    ListItemText,
-    Snackbar,
-    Alert,
-} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Link from '@mui/material/Link';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';

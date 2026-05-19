@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-    Box,
-    Button,
-    Container,
-    Divider,
-    Grid,
-    TextField,
-    Typography,
-    useMediaQuery,
-    useTheme,
-    Alert,
-    CircularProgress,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useTheme } from '@mui/material/styles';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import { useTemplates } from '../../hooks/useTemplates';

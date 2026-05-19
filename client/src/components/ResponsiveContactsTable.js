@@ -1,43 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Box,
-    Typography,
-    CircularProgress,
-    IconButton,
-    useTheme,
-    useMediaQuery,
-    Card,
-    CardContent,
-    Stack,
-    Tooltip,
-    Chip,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    List,
-    ListItem,
-    Divider,
-    TextField,
-    InputAdornment,
-    Pagination,
-    FormControl,
-    Select,
-    MenuItem,
-    Grid
-} from '@mui/material';
-import { 
-    Visibility as VisibilityIcon, 
-    HighlightOff as HighlightOffIcon,
-    Email as EmailIcon,
-    Person as PersonIcon,
-    Business as BusinessIcon,
-    LocationOn as LocationIcon,
-    Search as SearchIcon
-} from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import Chip from '@mui/material/Chip';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Pagination from '@mui/material/Pagination';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import EmailIcon from '@mui/icons-material/Email';
+import PersonIcon from '@mui/icons-material/Person';
+import BusinessIcon from '@mui/icons-material/Business';
+import LocationIcon from '@mui/icons-material/LocationOn';
+import SearchIcon from '@mui/icons-material/Search';
 
 const ResponsiveContactsTable = ({ 
     contacts, 

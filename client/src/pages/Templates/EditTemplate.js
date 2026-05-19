@@ -1,7 +1,13 @@
 // EditTemplate.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTemplates } from '../../hooks/useTemplates';
 

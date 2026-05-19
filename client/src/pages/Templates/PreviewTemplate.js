@@ -1,6 +1,11 @@
 // PreviewTemplate.js
 import React, { useState, useMemo } from 'react';
-import { IconButton, Dialog, DialogTitle, DialogContent, Typography, Divider } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import PreviewIcon from '@mui/icons-material/Visibility';
 import DOMPurify from 'dompurify';
 

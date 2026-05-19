@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Container, Box, Button, Grid, TextField, MenuItem, CircularProgress, LinearProgress, Alert } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
+import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom'; // For redirection after starting the campaign
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
-import { ReactComponent as SuccessIcon } from '../../assets/icons/success.svg';
+import SuccessIcon from '../../assets/icons/success.svg?react';
 import { useResources } from '../../hooks/useResources';
 import { usePrepareCampaign, useStartCampaign } from '../../hooks/useCampaign';
 

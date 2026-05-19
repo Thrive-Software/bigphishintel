@@ -1,6 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Container, Typography, Tabs, Tab } from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import ProfileTab from './ProfileTab';

@@ -12,14 +12,12 @@ import {
     Tooltip
 } from '/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { 
-    Visibility as VisibilityIcon, 
-    HighlightOff as HighlightOffIcon,
-    Email as EmailIcon,
-    Person as PersonIcon,
-    Business as BusinessIcon,
-    LocationOn as LocationIcon
-} from '@mui/icons-material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import EmailIcon from '@mui/icons-material/Email';
+import PersonIcon from '@mui/icons-material/Person';
+import BusinessIcon from '@mui/icons-material/Business';
+import LocationIcon from '@mui/icons-material/LocationOn';
 import { dataGridStyles, actionButtonsStyles, loadingContainerStyles } from '../utils/styles';
 
 const ContactsDataGrid = ({ 

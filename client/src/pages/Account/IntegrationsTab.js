@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Button,
-  Alert,
-  CircularProgress,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  Card,
-  CardContent,
-  Chip,
-  Stack,
-  alpha,
-  useTheme,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import { alpha, useTheme } from '@mui/material/styles';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import PowerOffRoundedIcon from '@mui/icons-material/PowerOffRounded';
 import PsychologyRoundedIcon from '@mui/icons-material/PsychologyRounded';

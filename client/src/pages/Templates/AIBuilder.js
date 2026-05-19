@@ -1,26 +1,22 @@
 // AIBuilder.js
 import React, { useState } from 'react';
-import { 
-    Box, 
-    Typography, 
-    Card, 
-    CardContent, 
-    Grid, 
-    TextField,
-    Paper,
-    IconButton,
-    Tooltip,
-    Divider,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel
-} from '@mui/material';
-import {
-    AutoAwesome as AutoAwesomeIcon,
-    Email as EmailIcon,
-    ContentCopy as ContentCopyIcon
-} from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Divider from '@mui/material/Divider';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import EmailIcon from '@mui/icons-material/Email';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const AIBuilder = () => {
 

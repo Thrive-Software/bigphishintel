@@ -11,7 +11,7 @@ export const getVersionInfo = async () => {
     console.error('Error fetching version:', error);
     // Fallback to package.json version if API fails
     return {
-      version: process.env.REACT_APP_VERSION || '0.1.0',
+      version: import.meta.env.VITE_VERSION || '0.1.0',
       releaseDate: null
     };
   }

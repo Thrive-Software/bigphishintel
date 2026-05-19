@@ -1,21 +1,24 @@
 // client\src\pages\Audience\AudienceDetail.js
 import React, { useEffect, useState } from 'react';
-import {
-    Typography,
-    Container,
-    Box,
-    Grid,
-    Card,
-    CardContent,
-    Divider,
-    Button,
-    Alert,
-    Snackbar,
-    IconButton,
-    Menu,
-    MenuItem
-} from '@mui/material';
-import { Group, Person, Add, UploadFile as UploadFileIcon, MoreVert as MoreVertIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Group from '@mui/icons-material/Group';
+import Person from '@mui/icons-material/Person';
+import Add from '@mui/icons-material/Add';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import { useParams, useNavigate } from 'react-router-dom';

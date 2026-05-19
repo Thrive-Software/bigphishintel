@@ -1,9 +1,9 @@
-import { ReactComponent as AudienceIcon } from '../assets/icons/audience.svg';
-import { ReactComponent as EmailIcon } from '../assets/icons/email.svg';
-import { ReactComponent as CampaignIcon } from '../assets/icons/campaign.svg';
-import { ReactComponent as AiIcon } from '../assets/icons/ai.svg';
-import { ReactComponent as SenderIcon } from '../assets/icons/sender.svg';
-import { ReactComponent as AnalyticsIcon } from '../assets/icons/analytics.svg';
+import AudienceIcon from '../assets/icons/audience.svg?react';
+import EmailIcon from '../assets/icons/email.svg?react';
+import CampaignIcon from '../assets/icons/campaign.svg?react';
+import AiIcon from '../assets/icons/ai.svg?react';
+import SenderIcon from '../assets/icons/sender.svg?react';
+import AnalyticsIcon from '../assets/icons/analytics.svg?react';
 
 export const dashboardCard = [
     {

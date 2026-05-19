@@ -1,5 +1,9 @@
 import React from 'react';
-import { Typography, Container, Box, Button, Grid } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import AddIcon from '@mui/icons-material/Add';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';

@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { Typography, Container, Grid, Paper, Divider, Box, Card, CardContent, Fade, Grow } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Fade from '@mui/material/Fade';
+import Grow from '@mui/material/Grow';
 import { useNavigate } from 'react-router-dom'; // For navigation
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';

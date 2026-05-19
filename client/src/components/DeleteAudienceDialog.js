@@ -1,16 +1,15 @@
 import React from 'react';
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Button,
-    Box,
-    Typography,
-    Alert
-} from '@mui/material';
-import { Delete, Warning } from '@mui/icons-material';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import Delete from '@mui/icons-material/Delete';
+import Warning from '@mui/icons-material/Warning';
 import { 
     dialogPaperProps, 
     gradientHeaderStyles

@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-    Typography, Container, Box, Grid, Tabs, Tab, CircularProgress,
-    Alert, Dialog, DialogActions, DialogContent, DialogContentText,
-    DialogTitle, Button, IconButton, Menu, MenuItem
-} from '@mui/material';
-import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
 import EmailClick from './EmailClick';
