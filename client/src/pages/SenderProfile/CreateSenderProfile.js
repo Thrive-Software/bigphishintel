@@ -201,7 +201,6 @@ const CreateSenderProfile = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     helperText="This field may be left blank if authentication is not required."
-                                    type="email"
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
