@@ -65,7 +65,7 @@ export const sendMultipleEmails = async (trackingEntry, senderProfile, template,
         } else if (isValidEmail(senderProfile.email)) {
             fromAddress = senderProfile.email;
         } else {
-            fromAddress = "no-reply@mail.com";
+            fromAddress = "no-reply@example.com";
         }
 
         // Email options
